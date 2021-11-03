@@ -1,0 +1,174 @@
+<div class="container" style="margin-top: 10px">
+  <h1>Site Configuration</h1>
+  <br/>
+  <form [formGroup] = "pageForm">
+    <div class="cardList">
+      <ng-container>
+        <div class="cardListItem">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>
+                <button (click)="deleteSite()">Delete</button>
+              </th>
+              <th>Name</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let site of siteService.sites; index as i">
+              <td>
+                <input type="checkbox" name="favorite_pet" [value]="i" (change)="onCheckSite($event)">
+              </td>
+              <td>
+                <output>{{ site.name }}</output>
+              </td>
+              <td>
+                <button (click)="editSite(site)">Edit</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+      <ng-container>
+        <form formGroupName="siteForm" (ngSubmit)="addSite(pageForm.controls['siteForm'])" novalidate autocomplete="off">
+          <div style="text-align: center" class="form-group">
+            <label class="center-block">ADD SITE </label>
+            <input class="form-control" formControlName="name" type="text" placeholder="Name">
+            <br/>
+            <br/>
+            <button type="submit">APPLY</button>
+          </div>
+          <div *ngIf="siteFormSubmitted && siteForm.controls['name']?.invalid" class="alert alert-danger">
+            <div *ngIf="siteForm.controls['name'].errors?.required">
+              Name is required.
+            </div>
+          </div>
+        </form>
+      </ng-container>
+      <ng-container>
+        <div class="cardListItem" style="text-align: center">
+          <label>Select a Site</label>
+          <select [(ngModel)]="choosenSite" [ngModelOptions]="{standalone: true}" required style="display: flex;"
+                  class="form-control" (change)="loadTanks()">
+            <option [ngValue]="null">Select a Site</option>
+            <option *ngFor="let site of siteService.sites" [ngValue]="site">
+              {{site.name}}
+            </option>
+          </select>
+          <br/>
+          <div *ngIf="tankFormSubmitted && !choosenSite.id" class="alert alert-danger">
+            Choose a tank
+          </div>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>
+                <button (click)="deleteTank()">Delete</button>
+              </th>
+              <th>Name</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let tank of tanks; let i = index;">
+              <td>
+                <input type="checkbox" [value]="i" (change)="onCheckTank($event)">
+              </td>
+              <td>
+                {{tank.name}}
+              </td>
+              <td>
+                <button (click)="editTank(tank)">Edit</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+      <ng-container>
+        <form formGroupName="tankForm" (ngSubmit)="addTank(pageForm.controls['tankForm'])" novalidate autocomplete="off">
+          <div style="text-align: center" class="form-group">
+            <label>ADD TANK</label>
+            <input class="form-control" formControlName="tank_name" type="text" placeholder="Name">
+            <br/>
+            <br/>
+            <button type="submit">APPLY</button>
+          </div>
+          <div *ngIf="tankFormSubmitted && tankForm.controls['tank_name'].invalid" class="alert alert-danger">
+            <div *ngIf="tankForm.controls['tank_name'].errors?.required">
+              Name is required.
+            </div>
+          </div>
+        </form>
+      </ng-container>
+    </div>
+    <br/>
+    <div class="container" style="margin-top: 10px">
+      <ng-container>
+        <div class="cardListItem" style="width: 300px; text-align: center">
+          <label>NET</label>
+          <br/>
+          <label style="color: black">Select a tank</label>
+          <select [(ngModel)]="choosenTank" [ngModelOptions]="{standalone: true}" required style="display: flex;"
+                  [ngClass]="tankService.tank.name ? 'form-control test' : 'form-control'"
+                  (change)="loadNets()">
+            <option [ngValue]="null" [disabled]="true">Select Net</option>
+            <option *ngFor="let tank of tanks" [ngValue]="tank">
+              {{tank.name}}
+            </option>
+          </select>
+          <br/>
+          <div *ngIf="netFormSubmitted && !choosenTank.id" class="alert alert-danger">
+            Choose a tank
+          </div>
+          <br/>
+          <form formGroupName="netForm" autocomplete="off" (ngSubmit)="addNet(pageForm.controls['netForm'])" novalidate>
+            <span class="b">Net Number:</span>
+        <span class="b">
+                 <input type="text" formControlName="net_number"
+                        style="width: 100px"
+                        class="form-control">
+        </span>
+            <span class="b">
+          <button type="submit">Add</button>
+        </span>
+            <div *ngIf="netFormSubmitted && netForm.controls['net_number'].invalid" class="alert alert-danger">
+              <div *ngIf="netForm.controls['net_number'].errors?.required">
+                Net's number is required.
+              </div>
+              <div *ngIf="netForm.controls['net_number'].errors?.pattern" style="text-align: center">
+                Net Number: Only Numbers are allowed.
+              </div>
+            </div>
+          </form>
+          <br/>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>
+                <button (click)="deleteNet()">Delete</button>
+              </th>
+              <th>Name</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let net of nets; let i = index;">
+              <td>
+                <input type="checkbox" name="favorite_pet" [value]="i" (change)="onCheckNet($event)">
+              </td>
+              <td>
+                H{{net.numNet}}
+              </td>
+              <td>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </div>
+  </form>
+</div>

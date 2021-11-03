@@ -1,0 +1,19 @@
+<mat-dialog-content>
+  <div>
+    <div style="margin-left: 50px;" *ngIf="data.loading.value === true">
+      <mat-progress-spinner [mode]="data.mode" [value]="data.nb"></mat-progress-spinner>
+    </div>
+    <div style="text-align: center;" *ngIf="data.loading.value === false">
+      <p>{{data.message}}</p>
+      <mat-icon *ngIf="data.status === 'Success'" aria-hidden="false" aria-label="Example check-mark icon">
+        check_circle_outline
+      </mat-icon>
+      <mat-icon *ngIf="data.status === 'Failed'" aria-hidden="false" aria-label="Example check-mark icon">
+        highlight_off
+      </mat-icon>
+    </div>
+  </div>
+  <div style="text-align: center;" *ngIf="data.loading.value === false">
+    <button mat-button (click)="onNoClick()">OK</button>
+  </div>
+</mat-dialog-content>

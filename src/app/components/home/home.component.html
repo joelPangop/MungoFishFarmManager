@@ -1,0 +1,187 @@
+<div class="container" style="margin-top: 10px">
+  <h1>Daily Records</h1>
+  <br/>
+  <button style="margin-left: 50px" (click)="goToAdd()">Create</button>
+  <div class="cardList" style="margin-top: 20px; width: 100%; margin-right: 20px">
+    <form [formGroup] = "listForm">
+      <div class="pagination">
+        <a *ngFor="let date of dates" class="page" (click)="changeView($event, date)">{{date}}</a>
+      </div>
+      <br/>
+      <br/>
+      <ng-container>
+        <div class="cardListItem">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">
+                <div>
+                  <button (click)="delete()">Delete</button>
+                </div>
+<!--                <hr/>-->
+<!--                <div><input type="checkbox" name="favorite_pet" [value]="dailyFeedbackService.dailyFeedbacks" (change)="onCheckAll($event)"></div>-->
+              </th>
+              <th scope="col">
+                Site
+              </th>
+              <th scope="col">
+                Tank #
+              </th>
+              <th scope="col">
+                <div>Fish</div>
+                <hr/>
+                <div>Stock-pcs</div>
+              </th>
+              <th scope="col">
+                <div>Feed</div>
+                <hr/>
+                <div>Type</div>
+              </th>
+              <th scope="col">
+                <div>09:00AM</div>
+                <hr/>
+                <div>GRAMS</div>
+              </th>
+              <th scope="col">
+                <div>12:00PM</div>
+                <hr/>
+                <div>GRAMS</div>
+              </th>
+              <th scope="col">
+                <div>03:00PM</div>
+                <hr/>
+                <div>GRAMS</div>
+              </th>
+              <th scope="col">
+                <div>Quantity</div>
+                <div>(Total)</div>
+              </th>
+              <th scope="col">
+                <div align="center">Feed</div>
+                <hr/>
+                <div>Cumulative grams</div>
+              </th>
+              <th scope="col">
+                Mortality
+                <hr/>
+                Male
+              </th>
+              <th scope="col">
+                Mortality
+                <hr/>
+                Female
+              </th>
+              <th scope="col">
+                TEMP.'C
+                <hr/>
+                06:00AM
+              </th>
+              <th scope="col">
+                TEMP.'C
+                <hr/>
+                03:00PM
+              </th>
+              <th scope="col">
+                OXYGEN (ppm)
+                <hr/>
+                06:00AM
+              </th>
+              <th scope="col">
+                OXYGEN (ppm)
+                <hr/>
+                03:00PM
+              </th>
+              <th scope="col">
+                <div>AMM</div>
+                <hr/>
+                <div>NH3</div>
+              </th>
+              <th scope="col">
+                <div>NITRITE</div>
+                <hr/>
+                <div>NH2</div>
+              </th>
+              <th scope="col">
+                pH AM reading
+              </th>
+              <th scope="col">
+                <span class="remarkCol">REMARKS</span>
+              </th>
+              <th scope="col">
+
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr formArrayName="feedbacks" *ngFor="let feedback of dailyFeedbackService.dailyFeedbacks; let i = index">
+              <td>
+                <input type="checkbox" name="favorite_pet" [value]="i" [checked]="dailyFeedbackService.dailyFeedbacks.length === checkedDailyFb.length" (change)="onCheckFb($event)">
+              </td>
+              <td>
+                <output>{{ getSite(feedback).name }}</output>
+              </td>
+              <td>
+                <output>{{getTank(feedback).name + 'H' + getNet(feedback).numNet}}</output>
+              </td>
+              <td class="divCol">
+                <output>{{getTankProduct(feedback).type}}</output>
+              </td>
+              <td>
+                <output>{{getTankProduct(feedback).qtyProduct}}</output>
+              </td>
+              <td>
+                <output>{{feedback.qtyAlmt09AM}}</output>
+              </td>
+              <td>
+                <output>{{feedback.qtyAlmt12PM}}</output>
+              </td>
+              <td>
+                <output>{{feedback.qtyAlmt03PM}}</output>
+              </td>
+              <td>
+                <output>{{feedback.quantity}}</output>
+              </td>
+              <td>
+                <output>{{feedback.cumulAlmt}}</output>
+              </td>
+              <td>
+                <output>{{feedback.nbMale}}</output>
+              </td>
+              <td>
+                <output>{{feedback.nbFemale}}</output>
+              </td>
+              <td>
+                <output>{{feedback.temp06AM}}</output>
+              </td>
+              <td>
+                <output>{{feedback.temp03PM}}</output>
+              </td>
+              <td>
+                <output>{{feedback.oxyg03PM}}</output>
+              </td>
+              <td>
+                <output>{{feedback.oxyg06AM}}</output>
+              </td>
+              <td>
+                <output>{{feedback.nh3}}</output>
+              </td>
+              <td>
+                <output>{{feedback.nh2}}</output>
+              </td>
+              <td>
+                <output>{{feedback.ph}}</output>
+              </td>
+              <td class="remarkCol">
+                <output class="remarkCol">{{feedback.remark}}</output>
+              </td>
+              <td>
+                <button (click)="edit(feedback)">Edit</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+</div>

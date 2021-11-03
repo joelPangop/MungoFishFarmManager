@@ -1,0 +1,91 @@
+.full-page{
+  height: 100%;
+  display: flex;
+}
+
+.login-card {
+  margin: auto;
+  width: 300px;
+}
+
+.login-field {
+  width: 30%;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+/* Column Gap */
+.cardList > * {
+  box-sizing: border-box;
+}
+
+.cardList > *:not(:last-child) {
+  margin-right: 32px;
+}
+
+/* Item sizing */
+/*.cardListItem {*/
+/*  flex: 0 1 calc(25% - 32px);*/
+/*}*/
+
+.cardListItem_2 {
+  flex: 0 1 calc(40% - 32px);
+}
+
+.cardListItem_3 {
+  flex: 0 1 calc(33.33% - 32px);
+}
+
+span.b {
+  display: inline-block;
+  padding: 5px;
+}
+
+.btn_submit {
+  border: 4px solid;
+  width: 100px;
+}
+
+output {
+  font-family: 'Bauhaus 93', serif;
+  font-size: x-large
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-family: 'Bauhaus 93', serif;
+  font-size: xx-large;
+}
+
+optgroup { font-size:10px; }
+
+span.b {
+  display: inline-block;
+  padding: 5px;
+}
+
+.toggle_box {
+  display: flex;
+  align-items: center;
+  min-width: fit-content;
+}
+
+span {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+toggle-button {
+  margin: 0 auto;
+  font-weight: 100;
+}

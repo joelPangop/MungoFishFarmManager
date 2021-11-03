@@ -1,0 +1,107 @@
+{
+  "name": "mungo-fish-farm-manager",
+  "version": "0.0.0",
+  "description": "Mungo Fish Farm application manager",
+  "main": "/electron/dist/main.js",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "electron": "ng build --base-href ./ && tsc --p electron && electron electron/dist/main.js",
+    "deploy": "electron-packager . — platform=win32",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "preelectron-pack": "npm run-script build",
+    "postinstall": "electron-builder install-app-deps",
+    "package-win": "electron-packager . mungo-fish-farm-manager --overwrite --asar --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=dist --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"MungoFishFarmManagement\""
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~12.1.2",
+    "@angular/cdk": "^12.1.3",
+    "@angular/common": "~12.1.2",
+    "@angular/compiler": "~12.1.2",
+    "@angular/core": "~12.1.2",
+    "@angular/flex-layout": "^12.0.0-beta.34",
+    "@angular/forms": "~12.1.2",
+    "@angular/material": "^12.1.3",
+    "@angular/platform-browser": "~12.1.2",
+    "@angular/platform-browser-dynamic": "~12.1.2",
+    "@angular/router": "~12.1.2",
+    "@angular/service-worker": "~12.1.2",
+    "@ngx-pwa/local-storage": "^12.1.0",
+    "@openid/appauth": "^1.3.1",
+    "@types/node": "^16.3.3",
+    "asar": "^3.0.3",
+    "bootstrap": "^4.0.0",
+    "colorette": "^1.2.2",
+    "electron-builder-squirrel-windows": "^22.11.8",
+    "electron-updater": "^4.3.9",
+    "moment": "^2.29.1",
+    "ngx-toastr": "^14.0.0",
+    "rxjs": "~6.6.0",
+    "tslib": "^2.2.0",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~12.1.2",
+    "@angular/cli": "~12.1.2",
+    "@angular/compiler-cli": "~12.1.2",
+    "@types/events": "^3.0.0",
+    "@types/jasmine": "~3.8.0",
+    "electron": "^13.1.7",
+    "electron-builder": "^22.11.7",
+    "electron-packager": "^15.3.0",
+    "electron-winstaller": "^5.0.0",
+    "jasmine-core": "~3.8.0",
+    "karma": "~6.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.0.3",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "typescript": "~4.3.2"
+  },
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joelPangop/MungoFishFarmManager.git"
+  },
+  "homepage": "./",
+  "build": {
+    "appId": "oneoften",
+    "files": [
+      "./build/**/*",
+      "./src/electron-starter.js"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "squirrel",
+      "icon": "build/favicon.ico"
+    },
+    "directories": {
+      "buildResources": "assets"
+    }
+  }
+}

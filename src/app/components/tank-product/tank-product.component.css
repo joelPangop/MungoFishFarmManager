@@ -1,0 +1,14 @@
+.cardListItem {
+  flex: 0 1 calc(40% - 32px);
+}
+
+h1 {
+  font-family: 'Bauhaus 93', serif;
+  font-size: xx-large;
+}
+
+label {
+  font-family: "Bauhaus 93";
+  font-size: large;
+  color: #888888;
+}

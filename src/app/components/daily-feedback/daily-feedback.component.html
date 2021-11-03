@@ -1,0 +1,373 @@
+<div class="container" style="margin-top: 10px; margin-bottom: 20px;">
+  <h1>DAILY FEEDBACK</h1>
+  <form [formGroup]="dailyFeedbackForm" autocomplete="off" (ngSubmit)="save(dailyFeedbackForm, 'submit')">
+    <section>
+      <legend>Site</legend>
+      <div class="cardList">
+        <ng-container>
+          <div class="cardListItem_3">
+            <label>Site</label>
+            <span class="b">
+            <select [(ngModel)]="siteService.site.id" [ngModelOptions]="{standalone: true}" required
+                    style="display: flex;" formControlName="sideID"
+                    class="form-control" (change)="loadTanks(siteService.site.id)">
+              <option [ngValue]="null">Select Site</option>
+              <option *ngFor="let site of siteService.sites" [ngValue]="site.id">
+                {{site.name}}
+              </option>
+            </select>
+          <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['sideID'].invalid"
+               class="alert alert-danger">
+            <div *ngIf="dailyFeedbackForm.controls['sideID'].errors?.pattern" style="text-align: center">
+              Site is required
+            </div>
+          </div>
+          </span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="siteService.site.id">
+          <div class="cardListItem_3">
+            <label>Tank</label>
+            <span class="b">
+            <select [(ngModel)]="dailyFeedbackService.dailyFeedback.tankID" required
+                    [ngModelOptions]="{standalone: true}" formControlName="tankID"
+                    style="display: flex;"
+                    (change)="loadNets(dailyFeedbackService.dailyFeedback.tankID)"
+                    class="form-control">
+              <option [ngValue]="null">Select a Tank</option>
+              <option *ngFor="let tank of tankService.tanks" [ngValue]="tank.id">
+                {{tank.name}}
+              </option>
+            </select>
+
+            <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['tankID'].invalid"
+                 class="alert alert-danger">
+              <div
+                *ngIf="dailyFeedbackForm.controls['tankID'].errors?.required || dailyFeedbackForm.controls['tankID'].errors?.pattern">
+            Tank is required.
+          </div>
+            </div>
+            </span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="dailyFeedbackService.dailyFeedback.tankID">
+          <div class="cardListItem_3">
+            <label>Net</label>
+            <select [(ngModel)]="tankService.net" [ngModelOptions]="{standalone: true}" style="display: flex;"
+                    formControlName="netID"
+                    class="form-control">
+              <option [ngValue]="null">Select Net</option>
+              <option *ngFor="let net of tankService.nets" [ngValue]="net">
+                H{{net.numNet}}
+              </option>
+            </select>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+    <section>
+      <legend>Product</legend>
+      <div class="cardList">
+        <ng-container>
+          <div class="cardListItem4">
+            <label>Type</label>
+            <span class="b">
+            <select [(ngModel)]="dailyFeedbackService.dailyFeedback.productID" [ngModelOptions]="{standalone: true}"
+                    required style="display: flex;" formControlName="productID"
+                    class="form-control" (change)="loadTankProduct(dailyFeedbackService.dailyFeedback.productID)">
+              <option [ngValue]="null">Select a Product</option>
+              <option *ngFor="let prod of tankProductService.tankProducts" [ngValue]="prod.id">
+                {{prod.type}}
+              </option>
+            </select>
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['productID'].invalid"
+                   class="alert alert-danger">
+              <div
+                *ngIf="dailyFeedbackForm.controls['productID'].errors?.required || dailyFeedbackForm.controls['productID'].errors?.pattern">
+            Product is required.
+          </div>
+              </div>
+            </span>
+          </div>
+        </ng-container>
+        <ng-container>
+          <div class="cardListItem4" style="text-align: center">
+            <label>Quantity</label>
+            <br/>
+            <output
+              style="font-family: 'Bauhaus 93',serif; font-size: x-large">{{dailyFeedbackService.tankProduct.qtyProduct}}</output>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+    <section>
+      <legend>Food</legend>
+      <div class="cardList">
+        <ng-container>
+          <div class="cardListItem_2">
+            <label>Food Quantity 09AM</label>
+            <span class="b"><input class="form-control" (change)="calculQty1(dailyFeedbackForm)" type="text"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.qtyAlmt09AM"
+                                   formControlName="qtyAlmt09AM">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['qtyAlmt09AM'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['qtyAlmt09AM'].errors?.required">
+            qtyAlmt09AM is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['qtyAlmt09AM'].errors?.pattern" style="text-align: center">
+            qtyAlmt09AM: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+
+        </ng-container>
+        <ng-container>
+          <div class="cardListItem_2">
+            <label>Food Quantity 12PM</label>
+            <span class="b"><input type="text" formControlName="qtyAlmt12PM" class="form-control"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.qtyAlmt12PM"
+                                   (change)="calculQty()">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['qtyAlmt12PM'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['qtyAlmt12PM'].errors?.required">
+            qtyAlmt12PM is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['qtyAlmt12PM'].errors?.pattern" style="text-align: center">
+            qtyAlmt12PM: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+        </ng-container>
+        <ng-container>
+          <div class="cardListItem_2">
+            <label>Food Quantity 03PM</label>
+            <span class="b"><input type="text" formControlName="qtyAlmt03PM" class="form-control"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.qtyAlmt03PM"
+                                   (change)="calculQty()">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['qtyAlmt03PM'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['qtyAlmt03PM'].errors?.required">
+            qtyAlmt03PM is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['qtyAlmt03PM'].errors?.pattern" style="text-align: center">
+            qtyAlmt03PM: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+        </ng-container>
+        <ng-container>
+          <div class="cardListItem_2" style="text-align: center">
+            <label>Quantity</label>
+            <br/>
+            <output>{{dailyFeedbackService.dailyFeedback.quantity}}</output>
+          </div>
+        </ng-container>
+        <ng-container>
+          <div class="cardListItem_2" style="text-align: center">
+            <label>Cumulating</label>
+            <br/>
+            <output>{{dailyFeedbackService.dailyFeedback.cumulAlmt}}</output>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+    <section>
+      <legend>Mortality</legend>
+      <div class="cardList">
+        <ng-container>
+          <div class="cardListItem_2">
+            <label>Male</label>
+            <span class="b"><input type="text" name="nbMale" class="form-control"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.nbMale"
+                                   formControlName="nbMale">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['nbMale'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['nbMale'].errors?.required">
+            nbMale is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['nbMale'].errors?.pattern" style="text-align: center">
+            nbMale: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+        </ng-container>
+        <ng-container>
+          <div class="cardListItem_2">
+            <label>Female</label>
+            <span class="b">
+            <input type="text" class="form-control" [(ngModel)]="dailyFeedbackService.dailyFeedback.nbFemale"
+                   formControlName="nbFemale">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['nbFemale'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['nbFemale'].errors?.required">
+            nbFemale is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['nbFemale'].errors?.pattern" style="text-align: center">
+            nbFemale: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+    <section>
+      <legend>Temperature 'C</legend>
+      <div class="cardList">
+        <ng-container>
+          <div class="cardListItem_2">
+            <label>Temp 06AM</label>
+            <span class="b"><input type="text" class="form-control"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.temp06AM"
+                                   formControlName="temp06AM">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['temp06AM'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['temp06AM'].errors?.required">
+            temp06AM is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['temp06AM'].errors?.pattern" style="text-align: center">
+            temp06AM: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+        </ng-container>
+        <ng-container>
+          <div class="cardListItem_2">
+            <label>Temp 03AM</label>
+            <span class="b"><input type="text" formControlName="temp03PM" class="form-control"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.temp03PM">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['temp03PM'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['temp03PM'].errors?.required">
+            temp03PM is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['temp03PM'].errors?.pattern" style="text-align: center">
+            temp03PM: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+    <section>
+      <legend>Oxygen (ppm)</legend>
+      <div class="cardList">
+        <ng-container>
+          <div class="cardListItem_2">
+            <label>Oxygen 06AM</label>
+            <span class="b"><input type="text" formControlName="oxyg06AM" class="form-control"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.oxyg06AM">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['oxyg06AM'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['oxyg06AM'].errors?.required">
+            oxyg06AM is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['oxyg06AM'].errors?.pattern" style="text-align: center">
+            oxyg06AM: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+          <div class="cardListItem_2">
+            <label>Oxygen 03AM</label>
+            <span class="b"><input type="text" formControlName="oxyg03PM" class="form-control"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.oxyg03PM">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['oxyg03PM'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['oxyg03PM'].errors?.required">
+            oxyg03PM is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['oxyg03PM'].errors?.pattern" style="text-align: center">
+            oxyg03PM: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+    <section>
+      <legend>Amm, Nitrite, PH</legend>
+      <div class="cardList">
+        <ng-container>
+          <div class="cardListItem_2">
+            <label>NH2</label>
+            <span class="b"><input type="text" formControlName="nh2" class="form-control"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.nh2">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['nh2'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['nh2'].errors?.required">
+            nh2 is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['nh2'].errors?.pattern" style="text-align: center">
+            nh2: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+          <div class="cardListItem_2">
+            <label>NH3</label>
+            <span class="b"><input type="text" formControlName="nh3" class="form-control"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.nh3">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['nh3'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['nh3'].errors?.required">
+            nh3 is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['nh3'].errors?.pattern" style="text-align: center">
+            nh3: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+          <div class="cardListItem_2">
+            <label>PH</label>
+            <span class="b"><input type="text" formControlName="ph" class="form-control"
+                                   [(ngModel)]="dailyFeedbackService.dailyFeedback.ph">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['ph'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['ph'].errors?.required">
+            ph is required.
+          </div>
+          <div *ngIf="dailyFeedbackForm.controls['ph'].errors?.pattern" style="text-align: center">
+            ph: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+    <section>
+      <legend>Remark</legend>
+      <div style="text-align: center; font-size: small">
+        <textarea formControlName="remark" class="form-control" [(ngModel)]="dailyFeedbackService.dailyFeedback.remark"
+                  style="width: 100%; background-color: rgba(0, 0, 0, .0001) !important; font-size: small">
+          </textarea>
+        <div>
+      <span class="b">
+              <div *ngIf="dfFormSubmitted && dailyFeedbackForm.controls['remark'].invalid"
+                   class="alert alert-danger">
+          <div *ngIf="dailyFeedbackForm.controls['remark'].errors?.required">
+            Remark is required. If there not, you can just mention "No Remark" for example
+          </div>
+              </div>
+      </span>
+        </div>
+      </div>
+    </section>
+    <div style="text-align: center">
+         <span class="b">
+      <input class="btn_submit" type="button" value="Save" (click)="save(dailyFeedbackForm, 'save')">&#160;&#160;&#160;
+      <input class="btn_submit" type="submit" value="Submit">
+         </span>
+    </div>
+  </form>
+</div>
+

@@ -1,0 +1,68 @@
+<div class="container" style="margin-top: 10px">
+  <h1>Tank Configuration</h1>
+  <div class="cardList" style="margin-top: 30px">
+    <ng-container>
+      <div class="cardListItem">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>
+              <button (click)="deleteProduct()">Delete</button>
+            </th>
+            <th>Type</th>
+            <th>Quantity</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let product of productService.tankProducts; let i = index;">
+            <td>
+              <input type="checkbox" name="favorite_pet" [value]="i" (change)="onCheckProduct($event)">
+            </td>
+            <td>
+              <output>{{product.type}}</output>
+            </td>
+            <td>
+              <output>{{product.qtyProduct}}</output>
+            </td>
+            <td>
+              <button (click)="editProduct(product)">Edit</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div class="cardListItem">
+        <form [formGroup]="prodForm" autocomplete="off" (ngSubmit)="createProduct(prodForm)">
+          <div style="text-align: center" class="form-group">
+            <label class="center-block">ADD PRODUCT</label>
+            <div style="text-align: center">
+          <span class="b"><input class="form-control" formControlName="type" type="text" placeholder="Type"><div
+            *ngIf="prodFormSubmitted && prodForm.controls['type'].invalid" class="alert alert-danger">
+          <div *ngIf="prodForm.controls['type'].errors?.required">
+            Type is required.
+          </div>
+        </div>
+        </span>
+              <span class="b"><input class="form-control" formControlName="quantity" type="text" placeholder="Quantity">
+              <div *ngIf="prodFormSubmitted && prodForm.controls['quantity'].invalid" class="alert alert-danger">
+          <div *ngIf="prodForm.controls['quantity'].errors?.required">
+            Quantity is required.
+          </div>
+          <div *ngIf="prodForm.controls['quantity'].errors?.pattern" style="text-align: center">
+            Quantity: Only Numbers are allowed.
+          </div>
+        </div>
+        </span>
+            </div>
+            <br/>
+            <br/>
+            <button type="submit">APPLY</button>
+          </div>
+        </form>
+      </div>
+    </ng-container>
+  </div>
+</div>

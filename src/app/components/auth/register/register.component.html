@@ -1,0 +1,171 @@
+<div class="container" style="margin-top: 30px; margin-bottom: 20px;">
+  <h1>Register</h1>
+  <br/>
+  <form [formGroup]="registerForm" autocomplete="off" (ngSubmit)="save()">
+    <div class="cardList">
+      <ng-container>
+        <div class="cardListItem_3 form-group" style="text-align: center">
+          <h3>Credentials</h3>
+          <input class="form-control" placeholder="Username" formControlName="username"
+                 [(ngModel)]="user.userName"
+                 type="text" [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()">
+          <br/>
+          <input class="form-control" placeholder="Email" formControlName="email" [(ngModel)]="user.email"
+                 type="email" [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"/>
+          <br/>
+          <div>
+            <span class="b">
+              <label>Role:</label>
+            </span>&#160;&#160;
+            <span class="b">
+            <select [(ngModel)]="user.roleID" [ngModelOptions]="{standalone: true}"
+                    [disabled]="!userService.isSuperAdmin()"
+                    class="form-control" style="display: flex;">
+              <option [value]="null">Select Role</option>
+              <option *ngFor="let role of userService.roles" [ngValue]="role.id">
+                {{role.roleName}}
+              </option>
+            </select>
+            </span>
+          </div>
+          <br/>
+          <div>
+            <span class="b">
+              <label>Supervisor:</label>
+            </span>&#160;&#160;
+            <span class="b">
+            <select [(ngModel)]="user.supervisorID" [ngModelOptions]="{standalone: true}" required
+                    [disabled]="!userService.isSuperAdmin()"
+                    class="form-control" style="display: flex;">
+              <option [value]="null">Select Supervisor</option>
+              <option *ngFor="let user of userService.users" [ngValue]="user.id">
+                {{user.userName}}
+              </option>
+            </select>
+            </span>
+          </div>
+          <br/>
+          <label for="toggle_change_pwd" *ngIf="user.id">Manage password</label>
+          <toggle-button (changed)="toggle_password($event)" id="toggle_change_pwd" *ngIf="user.id">
+          </toggle-button>
+          <br/>
+          <input class="form-control" placeholder="Password" formControlName="password"
+                 [(ngModel)]="user.password" [disabled]="user.id === userService.currentUserValue.id" *ngIf="checked"
+                 type="password"/>
+          <br/>
+          <input class="form-control" placeholder="Confirm Password" formControlName="confirmPassword" *ngIf="checked"
+                 type="password"/>
+          <br/>
+          <div class="alert alert-danger"
+               *ngIf="registerForm.controls['confirmPassword']?.valid && formSubmitted == true && checked">
+            <div *ngIf="registerForm.errors?.passwordMismatch">
+              Password and Confirm Password fields should match
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container>
+        <div class="cardListItem_3 form-group" style="text-align: center">
+          <h3>User Informations</h3>
+          <input class="form-control" placeholder="First Name" formControlName="firstName"
+                 [(ngModel)]="userInfos.firstName"
+                 type="text" [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"/>
+          <br/>
+          <input class="form-control" placeholder="Last Name" formControlName="lastName"
+                 [(ngModel)]="userInfos.lastName"
+                 type="text" [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"/>
+          <br/>
+          <!--          <input class="form-control" placeholder="Gender" formControlName="gender" [(ngModel)]="userInfos.gender"-->
+          <!--                 type="text"/>-->
+          <select class="form-control" formControlName="gender" required [(ngModel)]="userInfos.gender"
+                  [ngModelOptions]="{standalone: true}"
+                  [disabled]="!userService.isSuperAdmin() && !userService.isAdmin()">
+            <option value="" selected disabled hidden>Select gender</option>
+            <option *ngFor="let gender of genders" [ngValue]="gender">{{gender}}</option>
+          </select>
+          <br/>
+          <input type="date" class="form-control" placeholder="Gender" formControlName="birthday"
+                 [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"
+                 [(ngModel)]="userInfos.birthday">
+        </div>
+      </ng-container>
+      <ng-container>
+        <div class="cardListItem_3 form-group" style="text-align: center">
+          <h3>Address</h3>
+          <input class="form-control" placeholder="Address 1" formControlName="addr_1" [(ngModel)]="address.addr_1"
+                 [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"
+                 type="text"/>
+          <br/>
+          <input class="form-control" placeholder="Address 2" formControlName="addr_2" [(ngModel)]="address.addr_2"
+                 [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"
+                 type="text"/>
+          <br/>
+          <input class="form-control" placeholder="apartment num" formControlName="appart_num"
+                 [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"
+                 [(ngModel)]="address.appart_num"
+                 type="text"/>
+          <br/>
+          <span class="b">
+            <input class="form-control" style="width: 150px" placeholder="town" formControlName="town"
+                   [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"
+                   [(ngModel)]="address.town"
+                   type="text"/>
+          </span>
+          <span class="b">
+            <input class="form-control" style="width: 150px" placeholder="country" formControlName="country"
+                   [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"
+                   [(ngModel)]="address.country" type="text"/>
+          </span>
+          <br/>
+          <span class="b">
+            <input class="form-control" style="width: 150px" placeholder="region" formControlName="region"
+                   [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"
+                   [(ngModel)]="address.region" type="text"/>
+          </span>
+          <span class="b">
+            <input class="form-control" style="width: 150px" placeholder="postal code" formControlName="postal_code"
+                   [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"
+                   [(ngModel)]="address.postal_code" type="text"/>
+          </span>
+        </div>
+      </ng-container>
+      <ng-container>
+        <div class="cardListItem_2 form-group" style="text-align: center">
+          <h3>Telephone</h3>
+          <form formGroupName="telForm">
+            <button type="button" (click)="addTelephone(telForm)"
+                    [disabled]="!userService.isSuperAdmin() && !userService.isAdmin()">Add Phone
+            </button>
+            <div *ngFor="let telephone of telephones; let i = index">
+            <span class="b">
+            <select [(ngModel)]="telephone.telephone_category" [ngModelOptions]="{standalone: true}"
+                    [disabled]="!userService.isSuperAdmin() && !userService.isAdmin()"
+                    class="form-control" style="display: flex;">
+              <option *ngFor="let t of options" [ngValue]="t">
+                {{t}}
+              </option>
+            </select>
+            </span>
+              <span class="b">
+              <input class="form-control" style="width: 200px" placeholder="Phone Number"
+                     [ngModelOptions]="{standalone: true}"
+                     [readonly]="!userService.isSuperAdmin() && !userService.isAdmin()"
+                     [(ngModel)]="telephone.telephone_number" [name]="telephone.telephone_number" type="text"/>
+            </span>
+              <span class="b">
+              <mat-icon color="primary" (click)="removeControl(i)">delete_sweep</mat-icon>
+            </span>
+            </div>
+          </form>
+        </div>
+      </ng-container>
+    </div>
+    <br/>
+    <div style="text-align: center; margin-top: 20px">
+      <button mat-raised-button color="primary"
+              class="login-field" type="submit">
+        Register
+      </button>
+    </div>
+  </form>
+</div>

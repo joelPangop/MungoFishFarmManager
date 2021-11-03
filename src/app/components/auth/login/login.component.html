@@ -1,0 +1,25 @@
+<div class="container" style="margin-top: 20px; width: 300px">
+  <h1>
+    Login
+  </h1>
+  <from class="login-card">
+    <mat-card-content>
+      <div class="login-field">
+        <input class="form-control" placeholder="Email" name="email" [(ngModel)]="email" type="email"/>
+      </div>
+      <br/>
+      <br/>
+      <div class="login-field">
+        <input class="form-control" placeholder="Password" name="password" [(ngModel)]="password" type="password"/>
+      </div>
+      <br/>
+      <br/>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary"
+              class="login-field" (click)="login(email, password)" type="submit">
+        Login
+      </button>
+    </mat-card-actions>
+  </from>
+</div>

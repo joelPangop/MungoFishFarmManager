@@ -1,0 +1,59 @@
+input {
+  width: 100%;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+/* Column Gap */
+.cardList > * {
+  box-sizing: border-box;
+}
+
+.cardList > *:not(:last-child) {
+  margin-right: 32px;
+}
+
+/* Item sizing */
+.cardListItem {
+  flex: 0 1 calc(25% - 32px);
+}
+
+.cardListItem_2 {
+  flex: 0 1 calc(20% - 32px);
+}
+
+span.b {
+  display: inline-block;
+  padding: 5px;
+}
+
+.btn_submit {
+  border: 4px solid;
+  width: 100px;
+}
+
+fieldset {
+  background-color: #eeeeee;
+}
+
+legend {
+  background-color: gray;
+  color: white;
+  padding: 5px 10px;
+}
+
+h1 {
+  font-family: 'Bauhaus 93', serif;
+  font-size: xx-large;
+}
+
+label {
+  font-family: "Bauhaus 93";
+  font-size: large;
+  color: #888888;
+}
