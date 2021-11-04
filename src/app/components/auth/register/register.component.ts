@@ -46,11 +46,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         }
       }
 
-      for (let tel of this.userService.telephones) {
-        if (tel.userInfosID === userService.currentUserValue.userInfoID) {
-          this.userService.telephones.push(tel);
-        }
-      }
+      // for (let tel of this.userService.telephones) {
+      //   if (tel.userInfosID === userService.currentUserValue.userInfoID) {
+      //     this.telephones.push(tel);
+      //   }
+      // }
     }
 
     this.registerForm = new FormGroup({

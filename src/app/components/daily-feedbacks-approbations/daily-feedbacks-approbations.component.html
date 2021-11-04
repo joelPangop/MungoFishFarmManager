@@ -1,1 +1,53 @@
-<p>daily-feedbacks-approbations works!</p>
+<div class="container" style="margin-top: 10px">
+  <h1>Approbations Records</h1>
+  <br/>
+  <div class="cardList" style="margin-top: 20px; width: 100%; margin-right: 20px">
+    <form [formGroup]="listForm">
+      <ng-container>
+        <div class="cardListItem">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">
+                Daily Feeding
+              </th>
+              <th scope="col">
+                user
+              </th>
+              <th scope="col">
+                Created At
+              </th>
+              <th scope="col">
+                Status
+              </th>
+            </tr>
+            </thead>
+            <tbody *ngIf="dailyFeedbackService.approbations.length > 0">
+            <tr formArrayName="approbations"
+                *ngFor="let approbation of dailyFeedbackService.approbations; let i = index">
+              <td>
+                <label>{{getDfName(approbation)}}</label>
+              </td>
+              <td>
+                <label>{{getUserName(approbation)}}</label>
+              </td>
+              <td>
+                <label>{{approbation.createdAt}}</label>
+              </td>
+              <td>
+                <label *ngIf="approbation.status == ''">{{approbation.status}}</label>
+                <select *ngIf="!approbation.status" formControlName="gender" [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let status of options" [ngValue]="status">{{status}}</option>
+                </select>
+              </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="dailyFeedbackService.approbations.length == 0">
+            <tr>No Content</tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+</div>

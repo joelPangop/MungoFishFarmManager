@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "havenofbundles",
     "public": "dist/MungoFishFarmManager",
     "ignore": [
       "firebase.json",
@@ -9,7 +10,7 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "dist/MungoFishFarmManager/index.html"
       }
     ]
   }

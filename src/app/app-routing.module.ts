@@ -66,6 +66,20 @@ const routes: Routes = [
       )
   },
   {
+    path: 'daily_feeding_approbation',
+    loadChildren: () =>
+      import('./components/daily-feedbacks-approbations/daily-feedbacks-approbations.module').then(
+        m => m.DailyFeedbacksApprobationsModule
+      )
+  },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('./components/auth/register/register.module').then(
+        m => m.RegisterModule
+      )
+  },
+  {
     path: 'home',
     component: HomeComponent
   }

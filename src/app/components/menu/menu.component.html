@@ -201,7 +201,7 @@
   }
 
   .terminal pre {
-    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
     color: white;
     padding: 0 1rem 1rem;
     margin: 0;
@@ -245,16 +245,16 @@
     align-items: center;
     font-size: 12px;
     padding: 3px 10px;
-    border: 1px solid rgba(27,31,35,.2);
+    border: 1px solid rgba(27, 31, 35, .2);
     border-radius: 3px;
-    background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%);
+    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
     margin-left: 4px;
     font-weight: 600;
   }
 
   .github-star-badge:hover {
-    background-image: linear-gradient(-180deg,#f0f3f6,#e6ebf1 90%);
-    border-color: rgba(27,31,35,.35);
+    background-image: linear-gradient(-180deg, #f0f3f6, #e6ebf1 90%);
+    border-color: rgba(27, 31, 35, .35);
     background-position: -.5em;
   }
 
@@ -274,7 +274,7 @@
 
   /* Responsive Styles */
   @media screen and (max-width: 767px) {
-    .card-container > *:not(.circle-link) ,
+    .card-container > *:not(.circle-link),
     .terminal {
       width: 100%;
     }
@@ -301,67 +301,95 @@
     }
   }
 </style>
+
+<!--<div class="scrollbar" id="style-3">-->
+<!--  <div class="force-overflow"></div>-->
+<!--</div>-->
 <div class="app-view">
+
   <mat-toolbar class="mat-elevation-z8">
-        <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
-          <mat-icon *ngIf="!sidenav.opened">
-            menu
-          </mat-icon>
-          <mat-icon *ngIf="sidenav.opened">
-            close
-          </mat-icon>
-        </button>
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">
+        menu
+      </mat-icon>
+      <mat-icon *ngIf="sidenav.opened">
+        close
+      </mat-icon>
+    </button>
     Mungo Fish Farm Manager
   </mat-toolbar>
 
   <mat-sidenav-container>
+
     <mat-sidenav opened mode="side" class="mat-elevation-z8">
+<!--      <div class="scrollbar" id="menuDivID">-->
+<!--        <div class="force-overflow">-->
+          <img class="avatar mat-elevation-z8" src="assets/image.jpg"/>
+          <!--      <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200"/>-->
 
-      <img class="avatar mat-elevation-z8" src="assets/image.jpg"/>
-      <!--      <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200"/>-->
+          <h4 class="name">Joel Pangop</h4>
+          <p
+            class="designation">{{userService.currentUserValue.userName ? userService.currentUserValue.userName : 'Software Engineer'}}</p>
+          <div>
+          <span class="b"><a href="#" routerLink="login" routerLinkActive="active"
+                             routerDirection="root">Login</a></span>
+            <span class="b"><a href="#" routerLink="register" routerLinkActive="active"
+                               routerDirection="root">Register</a></span>
+          </div>
 
-      <h4 class="name">Joel Pangop</h4>
-      <p class="designation">{{userService.currentUserValue.userName ? userService.currentUserValue.userName : 'Software Engineer'}}</p>
-      <div>
-        <span class="b"><a href="#" routerLink="login" routerLinkActive="active" routerDirection="root">Login</a></span>
-        <span class="b"><a href="#" routerLink="register" routerLinkActive="active" routerDirection="root">Register</a></span>
-      </div>
+          <mat-divider></mat-divider>
 
-      <mat-divider></mat-divider>
+          <button mat-button class="menu-button" routerLink="home" [routerLinkActive]="'active'">
+            <mat-icon>home</mat-icon>
+            <span>Home</span>
+          </button>
+          <button mat-button class="menu-button" routerLink="daily_feedback" routerLinkActive="active"
+                  routerDirection="root">
+            <mat-icon>person</mat-icon>
+            <span>Daily Feedback</span>
+          </button>
+          <button mat-button class="menu-button" routerLink="tank_product" routerLinkActive="active"
+                  routerDirection="root">
+            <mat-icon>person</mat-icon>
+            <span>Tank's Products</span>
+          </button>
+          <button mat-button class="menu-button" routerLink="site" routerLinkActive="active" routerDirection="root">
+            <mat-icon>person</mat-icon>
+            <span>Sites</span>
+          </button>
+          <button *ngIf="userService.isAdmin() || userService.isSuperAdmin()" mat-button class="menu-button" routerLink="daily_feeding_approbation" routerLinkActive="active"
+                  routerDirection="root">
+            <mat-icon>person</mat-icon>
+            <span>Approbations</span>
+          </button>
+          <button *ngIf="userService.isAdmin() || userService.isSuperAdmin()" mat-button class="menu-button" routerLink="user_list" routerLinkActive="active"
+                  routerDirection="root">
+            <mat-icon>list</mat-icon>
+            <span>Users List</span>
+          </button>
+          <button mat-button class="menu-button" [routerLink]="['profile']"
+                  [queryParams]="{user: getUserToString(userService.currentUserValue)}"
+                  [skipLocationChange]=true [replaceUrl]=false routerLinkActive="active" routerDirection="root">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+          </button>
+          <button mat-button class="menu-button">
+            <mat-icon>info</mat-icon>
+            <span>About</span>
+          </button>
+          <mat-divider></mat-divider>
 
-      <button mat-button class="menu-button" routerLink="home" [routerLinkActive]="'active'">
-        <mat-icon>home</mat-icon>
-        <span>Home</span>
-      </button>
-      <button mat-button class="menu-button" routerLink="daily_feedback" routerLinkActive="active" routerDirection="root">
-        <mat-icon>person</mat-icon>
-        <span>Daily Feedback</span>
-      </button>
-      <button mat-button class="menu-button" routerLink="tank_product" routerLinkActive="active" routerDirection="root">
-        <mat-icon>person</mat-icon>
-        <span>Tank's Products</span>
-      </button>
-      <button mat-button class="menu-button" routerLink="site" routerLinkActive="active" routerDirection="root">
-        <mat-icon>person</mat-icon>
-        <span>Sites</span>
-      </button>
-      <button mat-button class="menu-button" routerLink="user_list" routerLinkActive="active" routerDirection="root">
-        <mat-icon>list</mat-icon>
-        <span>Users List</span>
-      </button>
-      <button mat-button class="menu-button">
-        <mat-icon>info</mat-icon>
-        <span>About</span>
-      </button>
-      <mat-divider></mat-divider>
-
-      <button mat-button class="menu-button">
-        <mat-icon>help</mat-icon>
-        <span>Help</span>
-      </button>
+          <button mat-button class="menu-button">
+            <mat-icon>help</mat-icon>
+            <span>Help</span>
+          </button>
+<!--        </div>-->
+<!--      </div>-->
     </mat-sidenav>
+
     <mat-sidenav-content>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
+

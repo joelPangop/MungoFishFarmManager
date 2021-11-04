@@ -45,8 +45,9 @@
             </span>
           </div>
           <br/>
-          <label for="toggle_change_pwd" *ngIf="user.id">Manage password</label>
-          <toggle-button (changed)="toggle_password($event)" id="toggle_change_pwd" *ngIf="user.id">
+          <label for="toggle_change_pwd" *ngIf="user.id && user.id == userService.currentUserValue.id">Manage password</label>
+          <toggle-button (changed)="toggle_password($event)" *ngIf="user.id && user.id == userService.currentUserValue.id"
+                         id="toggle_change_pwd">
           </toggle-button>
           <br/>
           <input class="form-control" placeholder="Password" formControlName="password"

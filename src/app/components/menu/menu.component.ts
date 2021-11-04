@@ -27,6 +27,9 @@ export class MenuComponent implements OnInit, AfterViewInit{
         this.userService.currentUser = res.user;
       }
     })
+    this.loadUserInfos();
+    this.loadAllAddresses();
+    this.loadAllTelephones();
   }
 
   ngAfterViewInit() {
@@ -40,6 +43,28 @@ export class MenuComponent implements OnInit, AfterViewInit{
       }
     });
     this.cd.detectChanges();
+  }
+
+  loadUserInfos(){
+    this.userService.getAllUserInfos().subscribe((res) => {
+      this.userService.userInfos = res;
+    })
+  }
+
+  loadAllAddresses(){
+    this.userService.getAllAddresses().subscribe((res) => {
+      this.userService.addresses = res;
+    })
+  }
+
+  loadAllTelephones(){
+    this.userService.getAllTelephones().subscribe((res) => {
+      this.userService.telephones = res;
+    })
+  }
+
+  getUserToString(user: any){
+    return JSON.stringify(user);
   }
 
 }

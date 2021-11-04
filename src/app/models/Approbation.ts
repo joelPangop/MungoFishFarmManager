@@ -3,13 +3,12 @@ export class Approbation {
   daily_feedbackID?: number;
   userID?: number;
   supervisorID?: number;
-  approved?: boolean;
+  status?: string;
   createdAt?: Date;
-  rejected?: boolean;
   approvedAt?: Date;
   rejectedAt?: Date;
 
   constructor() {
-
+    this.status = '';
   }
 }

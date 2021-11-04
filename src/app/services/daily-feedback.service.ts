@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {Tank} from "../models/Tank";
 import {TankProduct} from "../models/TankProduct";
 import {environment} from "../models/environment";
+import {Approbation} from "../models/Approbation";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class DailyFeedbackService {
 
   public dailyFeedback: DailyFeedback;
   public dailyFeedbacks: DailyFeedback[];
+  public approbations: Approbation[];
+  public approbation: Approbation;
   public tank: Tank;
   public tankProduct: TankProduct;
 
@@ -21,6 +24,8 @@ export class DailyFeedbackService {
     this.tank = new Tank();
     this.tankProduct = new TankProduct();
     this.dailyFeedbacks = [];
+    this.approbations = [];
+    this.approbation = new Approbation();
   }
 
   public getAll(): Observable<DailyFeedback[]>{
@@ -45,6 +50,14 @@ export class DailyFeedbackService {
 
   public delete(ids: number[]): Observable<any> {
     return this.http.delete<any>(`${environment.api_url}/daily_feedback/all?ids=${JSON.stringify(ids)}`);
+  }
+
+  public getAllApprobations(id: number | undefined): Observable<Approbation[]>{
+    return this.http.get<Approbation[]>(`${environment.api_url}/daily_feedback/approbations/${id}`);
+  }
+
+  public getByApprobationID(id: number): Observable<Approbation>{
+    return this.http.get<Approbation>(`${environment.api_url}/daily_feedback/approbation/one/${id}`);
   }
 
 }

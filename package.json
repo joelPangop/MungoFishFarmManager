@@ -39,6 +39,7 @@
     "colorette": "^1.2.2",
     "electron-builder-squirrel-windows": "^22.11.8",
     "electron-updater": "^4.3.9",
+    "firebase": "^9.2.0",
     "moment": "^2.29.1",
     "ngx-toastr": "^14.0.0",
     "rxjs": "~6.6.0",

@@ -1,4 +1,58 @@
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #004a9f;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #002b5c;
+}
+
+.scrollbar
+{
+  margin-left: 22px;
+  float: left;
+  height: 600px;
+  width: 200px;
+
+  overflow-y: scroll;
+  margin-bottom: 25px;
+}
+
+.force-overflow
+{
+  min-height: 450px;
+}
+
+::ng-deep .mat-drawer-inner-container {
+  overflow: visible!important;
+}
+/*mat-sidenav::-webkit-scrollbar*/
+/*{*/
+/*  width: 6px;*/
+/*  background-color: #F5F5F5;*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*}*/
+
+/*mat-sidenav::-webkit-scrollbar-thumb*/
+/*{*/
+/*  background-color: #000000;*/
+/*}*/
+
 mat-toolbar {
   background: #004a9f;
   color: white;
@@ -13,6 +67,7 @@ mat-sidenav {
   border-radius: 10px;
   padding: 16px;
   text-align: center;
+  overflow: hidden;
 }
 
 .content {
@@ -71,4 +126,8 @@ mat-divider {
 
 .active {
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+#myScrollDiv {
+  height: 90%;
 }
