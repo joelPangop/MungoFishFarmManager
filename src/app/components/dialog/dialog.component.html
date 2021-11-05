@@ -3,7 +3,16 @@
     <div style="margin-left: 50px;" *ngIf="data.loading.value === true">
       <mat-progress-spinner [mode]="data.mode" [value]="data.nb"></mat-progress-spinner>
     </div>
-    <div style="text-align: center;" *ngIf="data.loading.value === false">
+    <div style="text-align: center;" *ngIf="data.loading.value === false && data.type === 'confirm'">
+      <p>Do you confirm ?</p>
+      <div style="text-align: center">
+         <span class="b">
+          <button mat-button (click)="dialogRef.close(true)">YES</button>&#160;&#160;&#160;
+          <button mat-button (click)="cancel()">NO</button>
+         </span>
+      </div>
+    </div>
+    <div style="text-align: center;" *ngIf="data.loading.value === false && data.type === 'result'">
       <p>{{data.message}}</p>
       <mat-icon *ngIf="data.status === 'Success'" aria-hidden="false" aria-label="Example check-mark icon">
         check_circle_outline
@@ -13,7 +22,7 @@
       </mat-icon>
     </div>
   </div>
-  <div style="text-align: center;" *ngIf="data.loading.value === false">
+  <div style="text-align: center;" *ngIf="data.loading.value === false && data.type === 'result'">
     <button mat-button (click)="onNoClick()">OK</button>
   </div>
 </mat-dialog-content>

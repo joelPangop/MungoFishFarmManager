@@ -4,6 +4,7 @@ export class Approbation {
   userID?: number;
   supervisorID?: number;
   status?: string;
+  remark?: string;
   createdAt?: Date;
   approvedAt?: Date;
   rejectedAt?: Date;

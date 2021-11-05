@@ -5,9 +5,12 @@ import {UserInfo} from "../../../models/UserInfo";
 import {Telephone} from "../../../models/Telephone";
 import {Address} from "../../../models/Address";
 import {CategoryTelephone} from "../../../models/CategoryTelephone";
+// @ts-ignore
 import {MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../../models/User";
+import {DialogComponent} from "../../dialog/dialog.component";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-register',
@@ -25,6 +28,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   formSubmitted = false;
   genders = ["Male", "Female"];
   telForm: FormGroup = new FormGroup({});
+  loadingObserver!: BehaviorSubject<boolean>;
 
   constructor(public userService: UserService, private cd: ChangeDetectorRef, public dialog: MatDialog, private router: Router,
               private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute) {
@@ -109,6 +113,17 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.cd.detectChanges();
+  }
+
+  openDialog(status: string, message: string, mode: string, type?: string, nb?: number): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: {loading: this.loadingObserver, status: status, message: message, mode, nb, type}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   removeControl(i: number) {

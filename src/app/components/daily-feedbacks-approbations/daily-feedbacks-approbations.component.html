@@ -3,6 +3,9 @@
   <br/>
   <div class="cardList" style="margin-top: 20px; width: 100%; margin-right: 20px">
     <form [formGroup]="listForm">
+      <div class="pagination" *ngIf="userService.isAdmin() || userService.isSuperAdmin()">
+        <a *ngFor="let view of views" class="page" (click)="changeView($event, view)">{{view}}</a>
+      </div>
       <ng-container>
         <div class="cardListItem">
           <table class="table table-striped">
@@ -20,6 +23,15 @@
               <th scope="col">
                 Status
               </th>
+              <th scope="col">
+                Action
+              </th>
+              <th scope="col">
+                Action time
+              </th>
+              <th scope="col">
+                Daily Feeding
+              </th>
             </tr>
             </thead>
             <tbody *ngIf="dailyFeedbackService.approbations.length > 0">
@@ -35,10 +47,22 @@
                 <label>{{approbation.createdAt}}</label>
               </td>
               <td>
-                <label *ngIf="approbation.status == ''">{{approbation.status}}</label>
-                <select *ngIf="!approbation.status" formControlName="gender" [ngModelOptions]="{standalone: true}">
-                  <option *ngFor="let status of options" [ngValue]="status">{{status}}</option>
+                <label *ngIf="approbation.status">{{approbation.status}}</label>
+                <select *ngIf="!approbation.status" [(ngModel)]="approbation.status"
+                        [ngModelOptions]="{standalone: true}" required>
+
+                  <option *ngFor="let status of options" [Value]="status">{{status}}</option>
                 </select>
+              </td>
+              <td>
+                <button [disabled]="userService.currentUserValue.id === approbation.userID" (click)="submit(approbation)">Submit</button>
+              </td>
+              <td>
+                <label
+                  *ngIf="approbation.status">{{approbation.status == "Approved" ? approbation.approvedAt : approbation.rejectedAt}}</label>
+              </td>
+              <td>
+                  <button (click)="goToDf(approbation.daily_feedbackID)">View</button>
               </td>
             </tr>
             </tbody>

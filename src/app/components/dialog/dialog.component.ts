@@ -1,14 +1,16 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {BehaviorSubject} from "rxjs";
-import {ProgressSpinnerMode} from "@angular/material/progress-spinner";
+import {ProgressSpinnerMode} from "@angular/material/progress-spinner/progress-spinner";
 
 export interface DialogData {
   loading: BehaviorSubject<boolean>;
   status: string;
   message: string;
   mode: ProgressSpinnerMode,
-  nb: number
+  nb: number,
+  result: string,
+  type: string
 }
 
 @Component({
@@ -30,4 +32,12 @@ export class DialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  confirm() {
+    this.data.result = "confirm";
+    this.dialogRef.close(true);
+  }
+
+  cancel() {
+    this.dialogRef.close(false);
+  }
 }

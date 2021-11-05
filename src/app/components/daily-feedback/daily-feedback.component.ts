@@ -5,13 +5,14 @@ import {SiteService} from "../../services/site.service";
 import {TankService} from "../../services/tank.service";
 import {TankProductService} from "../../services/tank-product.service";
 import {ToastContainerDirective, ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {DailyFeedback} from "../../models/DailyFeedback";
 import {Net} from "../../models/Net";
 import {BehaviorSubject} from "rxjs";
 import {DialogComponent} from "../dialog/dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../services/user.service";
+import {User} from "../../models/User";
 
 @Component({
   selector: 'app-daily-feedback',
@@ -25,13 +26,16 @@ export class DailyFeedbackComponent implements OnInit {
   dailyFeedbackForm: FormGroup;
   loadingObserver!: BehaviorSubject<boolean>;
   dfFormSubmitted: boolean = false;
+  status: string | undefined
+  user: User;
 
   @ViewChild(ToastContainerDirective, {static: true})
   public toastContainer!: ToastContainerDirective;
 
   constructor(public dailyFeedbackService: DailyFeedbackService, public siteService: SiteService, public tankService: TankService, public tankProductService: TankProductService,
               private toastr: ToastrService, public router: Router, public dialog: MatDialog, public formBuilder: FormBuilder,
-              public userService: UserService) {
+              public userService: UserService, private activatedRoute: ActivatedRoute) {
+    this.user = new User();
     this.dailyFeedbackForm = this.formBuilder.group({
       sideID: new FormControl(siteService.site.id, [Validators.required, Validators.pattern(/^-?([1-9]\d*)?$/)]),
       tankID: new FormControl(dailyFeedbackService.dailyFeedback.tankID, [Validators.required, Validators.pattern(/^-?([1-9]\d*)?$/)]),
@@ -55,8 +59,13 @@ export class DailyFeedbackComponent implements OnInit {
 
   ngOnInit(): void {
     this.toastr.overlayContainer = this.toastContainer;
+    const param = this.activatedRoute.snapshot.queryParams.feedback;
+    if(param){
+      this.dailyFeedbackService.dailyFeedback = JSON.parse(param as string);
+    }
     this.loadAllSites();
     this.loadProducts();
+    this.getStatus();
     this.loadFeedBacks();
   }
 
@@ -96,6 +105,17 @@ export class DailyFeedbackComponent implements OnInit {
     this.dailyFeedbackService.getAll().subscribe((res) => {
       this.dailyFeedbackService.dailyFeedbacks = res;
     })
+  }
+
+  getStatus() {
+    if(this.dailyFeedbackService.dailyFeedback.id) {
+      this.dailyFeedbackService.getByDaily_feedbackID(this.dailyFeedbackService.dailyFeedback.id).subscribe((res) => {
+        this.status = res.status;
+        this.userService.getUserByID(res.userID as number).subscribe((user) => {
+          this.user = user;
+        })
+      })
+    }
   }
 
   loadTanks(id: number) {
@@ -148,7 +168,7 @@ export class DailyFeedbackComponent implements OnInit {
         });
         this.dfFormSubmitted = false;
       } else {
-        this.dailyFeedbackService.update(this.dailyFeedbackService.dailyFeedback.id).subscribe(async (res) => {
+        this.dailyFeedbackService.update(this.userService.currentUserValue, this.dailyFeedbackService.dailyFeedback.id).subscribe(async (res) => {
           if (res.status == "Success") {
             this.closeDialog();
             await this.openDialog(res.status, res.message, "indeterminate");

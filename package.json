@@ -41,6 +41,7 @@
     "electron-updater": "^4.3.9",
     "firebase": "^9.2.0",
     "moment": "^2.29.1",
+    "ngx-modal-dialog": "^4.0.0",
     "ngx-toastr": "^14.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",

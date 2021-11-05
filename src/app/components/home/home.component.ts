@@ -210,8 +210,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   edit(feedback: DailyFeedback) {
-    this.dailyFeedbackService.dailyFeedback = feedback;
-    this.router.navigate(['daily_feedback'], {replaceUrl: true});
+    // this.dailyFeedbackService.dailyFeedback = feedback;
+    this.router.navigate(['daily_feedback'], {queryParams: {feedback: JSON.stringify(feedback), skipLocationChange: true, replaceUrl: false}});
   }
 
 

@@ -32,16 +32,16 @@ export class DailyFeedbackService {
     return this.http.get<DailyFeedback[]>(environment.api_url+'/daily_feedback');
   }
 
-  public getByID(id: number): Observable<DailyFeedback[]>{
-    return this.http.get<DailyFeedback[]>(`${environment.api_url}/daily_feedback/${id}`);
+  public getByID(id: number): Observable<DailyFeedback>{
+    return this.http.get<DailyFeedback>(`${environment.api_url}/daily_feedback/${id}`);
   }
 
   public create(user: any): Observable<any> {
     return this.http.post<any>(environment.api_url+'/daily_feedback', {dailyFeedback: this.dailyFeedback, user: user});
   }
 
-  public update(id: number): Observable<any> {
-    return this.http.put<any>(`${environment.api_url}/daily_feedback/${id}`, this.dailyFeedback);
+  public update(user: any, id: number): Observable<any> {
+    return this.http.put<any>(`${environment.api_url}/daily_feedback/${id}`, {dailyFeedback: this.dailyFeedback, user: user});
   }
 
   public getTankByID(id: number): Observable<Tank>{
@@ -53,11 +53,23 @@ export class DailyFeedbackService {
   }
 
   public getAllApprobations(id: number | undefined): Observable<Approbation[]>{
-    return this.http.get<Approbation[]>(`${environment.api_url}/daily_feedback/approbations/${id}`);
+    return this.http.get<Approbation[]>(`${environment.api_url}/approbations/${id}`);
   }
 
-  public getByApprobationID(id: number): Observable<Approbation>{
-    return this.http.get<Approbation>(`${environment.api_url}/daily_feedback/approbation/one/${id}`);
+  public getApprobationBySupervisorID(id: number): Observable<Approbation[]>{
+    return this.http.get<Approbation[]>(`${environment.api_url}/approbations/supervisor/${id}`);
+  }
+
+  public getApprobationByUserID(id: number): Observable<Approbation[]>{
+    return this.http.get<Approbation[]>(`${environment.api_url}/approbations/user/${id}`);
+  }
+
+  public updateApprobation(id: number | undefined, data: any): Observable<any> {
+    return this.http.put<any>(`${environment.api_url}/approbations/${id}`, data);
+  }
+
+  public getByDaily_feedbackID(id: number): Observable<Approbation>{
+    return this.http.get<Approbation>(`${environment.api_url}/approbations/daily_feedbackID/${id}`);
   }
 
 }

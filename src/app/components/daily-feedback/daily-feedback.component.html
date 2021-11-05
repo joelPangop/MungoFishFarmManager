@@ -364,8 +364,8 @@
     </section>
     <div style="text-align: center">
          <span class="b">
-      <input class="btn_submit" type="button" value="Save" (click)="save(dailyFeedbackForm, 'save')">&#160;&#160;&#160;
-      <input class="btn_submit" type="submit" value="Submit">
+      <input *ngIf="(status == 'Rejected' && user.id === userService.currentUserValue.id) || !dailyFeedbackService.dailyFeedback.submitted" class="btn_submit" type="button" value="Save" (click)="save(dailyFeedbackForm, 'save')">&#160;&#160;&#160;
+      <input *ngIf="(status == 'Rejected' && user.id === userService.currentUserValue.id) || !dailyFeedbackService.dailyFeedback.submitted" class="btn_submit" type="submit" value="Submit">
          </span>
     </div>
   </form>
