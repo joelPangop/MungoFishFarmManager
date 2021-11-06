@@ -3,6 +3,7 @@ import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
 import {UserInfo} from "../../../models/UserInfo";
 import {User} from "../../../models/User";
+import {Address} from "../../../models/Address";
 
 @Component({
   selector: 'app-list',
@@ -17,8 +18,8 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsers();
-    this.loadUserInfos();
-    this.loadAllAddresses();
+    // this.loadUserInfos();
+    // this.loadAllAddresses();
     this.loadAllTelephones();
   }
 
@@ -28,17 +29,17 @@ export class ListComponent implements OnInit {
     })
   }
 
-  loadUserInfos(){
-    this.userService.getAllUserInfos().subscribe((res) => {
-      this.userService.userInfos = res;
-    })
-  }
+  // loadUserInfos(){
+  //   this.userService.getAllUserInfos().subscribe((res) => {
+  //     this.userService.userInfos = res;
+  //   })
+  // }
 
-  loadAllAddresses(){
-    this.userService.getAllAddresses().subscribe((res) => {
-      this.userService.addresses = res;
-    })
-  }
+  // loadAllAddresses(){
+  //   this.userService.getAllAddresses().subscribe((res) => {
+  //     this.userService.addresses = res;
+  //   })
+  // }
 
   loadAllTelephones(){
     this.userService.getAllTelephones().subscribe((res) => {
@@ -58,6 +59,7 @@ export class ListComponent implements OnInit {
   }
 
   goToAdd() {
+    this.userService.address = new Address();
     this.router.navigate(['register'], {replaceUrl: true});
   }
 

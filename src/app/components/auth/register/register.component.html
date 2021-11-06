@@ -19,7 +19,7 @@
             </span>&#160;&#160;
             <span class="b">
             <select [(ngModel)]="user.roleID" [ngModelOptions]="{standalone: true}"
-                    [disabled]="!userService.isSuperAdmin()"
+                    [disabled]="!userService.isSuperAdmin() && !userService.isAdmin()"
                     class="form-control" style="display: flex;">
               <option [value]="null">Select Role</option>
               <option *ngFor="let role of userService.roles" [ngValue]="role.id">
@@ -35,10 +35,10 @@
             </span>&#160;&#160;
             <span class="b">
             <select [(ngModel)]="user.supervisorID" [ngModelOptions]="{standalone: true}" required
-                    [disabled]="!userService.isSuperAdmin()"
+                    [disabled]="!userService.isSuperAdmin() && !userService.isAdmin()"
                     class="form-control" style="display: flex;">
               <option [value]="null">Select Supervisor</option>
-              <option *ngFor="let user of userService.users" [ngValue]="user.id">
+              <option *ngFor="let user of supervisors" [ngValue]="user.id">
                 {{user.userName}}
               </option>
             </select>

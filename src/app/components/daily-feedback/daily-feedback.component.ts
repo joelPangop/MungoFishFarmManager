@@ -69,10 +69,10 @@ export class DailyFeedbackComponent implements OnInit {
     this.loadFeedBacks();
   }
 
-  openDialog(status: string, message: string, mode: string, nb?: number): void {
+  openDialog(status: string, message: string, mode: string, type?: string, nb?: number): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '250px',
-      data: {loading: this.loadingObserver, status: status, message: message, mode, nb}
+      data: {loading: this.loadingObserver, status: status, message: message, mode, nb, type}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -158,12 +158,12 @@ export class DailyFeedbackComponent implements OnInit {
         this.dailyFeedbackService.create(this.userService.currentUserValue).subscribe(async (res) => {
           if (res.status == "Success") {
             this.closeDialog();
-            await this.openDialog(res.status, res.message, "indeterminate");
+            await this.openDialog(res.status, res.message, "indeterminate", "result");
             this.router.navigate(['home'], {replaceUrl: true});
           } else {
             this.toastr.error(res.message);
             this.closeDialog();
-            await this.openDialog(res.status, res.message, "indeterminate");
+            await this.openDialog(res.status, res.message, "indeterminate", "result");
           }
         });
         this.dfFormSubmitted = false;

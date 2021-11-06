@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/MungoFishFarmManager",
+    "public": "dist/MungofishFarmManager",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,7 +9,7 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "dist/MungoFishFarmManager/index.html"
+        "destination": "/index.html"
       }
     ]
   }

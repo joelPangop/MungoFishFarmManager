@@ -21,6 +21,7 @@ export class UserService {
   private currentUserSubject: BehaviorSubject<User>;
   public userInfos: UserInfo[];
   public addresses: Address[];
+  public address: Address;
   public telephones: Telephone[];
   public userInfo: UserInfo;
   public roles: Role[];
@@ -29,6 +30,7 @@ export class UserService {
     const storageUser = JSON.parse(<string>localStorage.getItem('currentUser'));
     this.currentUserSubject = new BehaviorSubject<User>(storageUser === null ? new User() : storageUser);
     this.currentUser = this.currentUserSubject.asObservable();
+    this.address = new Address();
     this.users = [];
     this.roles = [];
     this.userInfos = [];

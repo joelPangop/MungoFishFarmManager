@@ -12,7 +12,7 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MUNGOFISHFARMMANAGER_9B644 }}'
-          projectId: mungofishfarmmanager-9b644
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MUNGOFISHFARMMANAGER_EBCE1 }}'
+          projectId: mungofishfarmmanager-ebce1
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels

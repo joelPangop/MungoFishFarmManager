@@ -65,10 +65,10 @@ export class SiteComponent implements OnInit {
     this.loadAllSites();
   }
 
-  openDialog(status: string, message: string, mode: string, nb?: number): void {
+  openDialog(status: string, message: string, mode: string, type?: string, nb?: number): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '250px',
-      data: {loading: this.loadingObserver, status: status, message: message, mode, nb}
+      data: {loading: this.loadingObserver, status: status, message: message, mode, nb, type}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -147,8 +147,9 @@ export class SiteComponent implements OnInit {
           if (res.status === "Success") {
             this.tanks.push(res.tank);
           }
-          this.closeDialog();
-          await this.openDialog(res.status, res.message, "indeterminate");
+          this.dialog.closeAll();
+          this.loadingObserver = new BehaviorSubject<boolean>(false);
+          await this.openDialog(res.status, res.message, "indeterminate", "result");
           this.tankFormSubmitted = false;
         })
         this.loadingObserver = new BehaviorSubject<boolean>(false);
@@ -162,8 +163,9 @@ export class SiteComponent implements OnInit {
               }
             }
           }
-          this.closeDialog();
-          await this.openDialog(res.status, res.message, "indeterminate");
+          this.dialog.closeAll();
+          this.loadingObserver = new BehaviorSubject<boolean>(false);
+          await this.openDialog(res.status, res.message, "indeterminate", "result");
           this.tankFormSubmitted = false;
         })
         this.loadingObserver = new BehaviorSubject<boolean>(false);
@@ -192,9 +194,9 @@ export class SiteComponent implements OnInit {
       }
       status = res.status;
       message = res.message;
+      this.dialog.closeAll();
       this.loadingObserver = new BehaviorSubject<boolean>(false);
-      this.closeDialog();
-      await this.openDialog(status, message, "determinate");
+      await this.openDialog(res.status, res.message, "indeterminate", "result");
     })
   }
 
@@ -202,9 +204,11 @@ export class SiteComponent implements OnInit {
     this.tankService.tank = tank;
   }
 
-  public deleteTank() {
+  public async deleteTank() {
     this.loadingObserver = new BehaviorSubject<boolean>(true);
     let deleted = [];
+    await this.openDialog("", "", "indeterminate");
+
     for (let i = this.checkedTanks.length - 1; i >= 0; i--) {
       deleted.push(this.tanks[this.checkedTanks[i]].id);
     }
@@ -214,9 +218,10 @@ export class SiteComponent implements OnInit {
         for (let i = this.checkedTanks.length - 1; i >= 0; i--)
           this.tanks.splice(this.checkedTanks[i], 1);
       }
-      await this.openDialog(res.status, res.message, "determinate");
+      this.dialog.closeAll();
+      this.loadingObserver = new BehaviorSubject<boolean>(false);
+      await this.openDialog(res.status, res.message, "indeterminate", "result");
     })
-    this.loadingObserver = new BehaviorSubject<boolean>(false);
 
   }
 
@@ -262,8 +267,9 @@ export class SiteComponent implements OnInit {
     this.tankService.net = net;
   }
 
-  public deleteNet() {
+  public async deleteNet() {
     this.loadingObserver = new BehaviorSubject<boolean>(true);
+    await this.openDialog("", "", "indeterminate");
     let deleted = [];
     for (let i = this.checkedNets.length - 1; i >= 0; i--) {
       deleted.push(this.nets[this.checkedNets[i]].numNet);
@@ -273,7 +279,9 @@ export class SiteComponent implements OnInit {
         for (let i = this.checkedNets.length - 1; i >= 0; i--)
           this.nets.splice(this.checkedNets[i], 1);
       }
-      await this.openDialog(res.status, res.message, "determinate");
+      this.dialog.closeAll();
+      this.loadingObserver = new BehaviorSubject<boolean>(false);
+      await this.openDialog(res.status, res.message, "indeterminate", "result");
     })
     this.loadingObserver = new BehaviorSubject<boolean>(false);
   }
@@ -294,10 +302,13 @@ export class SiteComponent implements OnInit {
     console.log(this.checkedNets);
   }
 
-  addNet(netForm: any) {
+  async addNet(netForm: any) {
 
     this.netFormSubmitted = true;
     let nets_num: number[] = [];
+    this.loadingObserver = new BehaviorSubject<boolean>(true);
+    await this.openDialog("", "", "indeterminate");
+
     this.nets.forEach(net => {
       nets_num.push(net.numNet);
     })
@@ -312,7 +323,9 @@ export class SiteComponent implements OnInit {
           if (res.status === "Success") {
             this.nets.push(res.net);
           }
-          await this.openDialog(res.status, res.message, "indeterminate");
+          this.dialog.closeAll();
+          this.loadingObserver = new BehaviorSubject<boolean>(false);
+          await this.openDialog(res.status, res.message, "indeterminate", "result");
           this.netFormSubmitted = false;
         })
         this.loadingObserver = new BehaviorSubject<boolean>(false);

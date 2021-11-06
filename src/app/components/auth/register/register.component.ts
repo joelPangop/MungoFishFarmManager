@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   genders = ["Male", "Female"];
   telForm: FormGroup = new FormGroup({});
   loadingObserver!: BehaviorSubject<boolean>;
+  public supervisors: User[];
 
   constructor(public userService: UserService, private cd: ChangeDetectorRef, public dialog: MatDialog, private router: Router,
               private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute) {
@@ -37,25 +38,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.address = new Address();
     this.user = new User();
     this.telephones = [];
-
-    if (userService.currentUserValue.id) {
-      for (let usr of this.userService.userInfos) {
-        if (usr.id === userService.currentUserValue.userInfoID) {
-          this.userInfos = usr;
-        }
-      }
-      for (let addr of this.userService.addresses) {
-        if (addr.userInfosID === userService.currentUserValue.userInfoID) {
-          this.address = addr;
-        }
-      }
-
-      // for (let tel of this.userService.telephones) {
-      //   if (tel.userInfosID === userService.currentUserValue.userInfoID) {
-      //     this.telephones.push(tel);
-      //   }
-      // }
-    }
+    this.supervisors = [];
 
     this.registerForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
@@ -96,7 +79,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.options = Object.values(CategoryTelephone);
     const param = this.activatedRoute.snapshot.queryParams.user;
-    if(param){
+    if (param) {
       this.user = JSON.parse(param as string);
       if (this.user) {
         this.loadUserInfos(this.user.userInfoID);
@@ -149,9 +132,13 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     })
   }
 
-  loadUsers(){
+  loadUsers() {
     this.userService.getAllUsers().subscribe((res) => {
       this.userService.users = res;
+      for (let usr of this.userService.users) {
+        if (usr.roleID === 1 || usr.roleID === 2)
+          this.supervisors.push(usr);
+      }
     })
   }
 
@@ -191,8 +178,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
 
-  save() {
-
+  async save() {
+    this.loadingObserver = new BehaviorSubject<boolean>(true);
+    await this.openDialog("", "", "indeterminate");
     this.formSubmitted = true;
 
     const credentials = {
@@ -206,13 +194,19 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       this.user.password = "Abc123...";
       this.userService.register(credentials).subscribe(async (res) => {
         if (res.status === 'Success') {
+          this.dialog.closeAll();
+          this.loadingObserver = new BehaviorSubject<boolean>(false);
+          await this.openDialog(res.status, res.message, "indeterminate", "result");
           await this.router.navigate(['user_list'], {replaceUrl: true});
         }
       })
     } else {
       this.userService.update(credentials, this.user.id).subscribe(async (res) => {
-        if (res.status === 'Success') {
-
+        if (res.result === 'Success') {
+          this.dialog.closeAll();
+          this.loadingObserver = new BehaviorSubject<boolean>(false);
+          console.log(res);
+          await this.openDialog(res.status, res.message, "indeterminate", "result");
           // await this.router.navigate(['user_list'], {replaceUrl: true});
         }
       })
